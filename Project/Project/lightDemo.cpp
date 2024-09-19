@@ -51,6 +51,8 @@ const string font_name = "fonts/arial.ttf";
 
 //Vector with meshes
 vector<struct MyMesh> myMeshes;
+vector<struct MyMesh> treeMeshes;
+vector<struct MyMesh> boatMeshes;
 
 //External array storage defined in AVTmathLib.cpp
 
@@ -147,61 +149,60 @@ void renderScene(void) {
 		multMatrixPoint(VIEW, lightPos,res);   //lightPos definido em World Coord so is converted to eye space
 		glUniform4fv(lPos_uniformId, 1, res);
 
-	int objId=0; //id of the object mesh - to be used as index of mesh: Mymeshes[objID] means the current mesh
 
-	
-	for (int i = 0 ; i < 4; ++i) {
-		for (int j = 0; j < 1; ++j) {
+	for (int i = 0 ; i < 2; ++i) {
 			
-			// send the material
-			loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
-			glUniform4fv(loc, 1, myMeshes[objId].mat.ambient);
-			loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
-			glUniform4fv(loc, 1, myMeshes[objId].mat.diffuse);
-			loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
-			glUniform4fv(loc, 1, myMeshes[objId].mat.specular);
-			loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
-			glUniform1f(loc, myMeshes[objId].mat.shininess);
-			pushMatrix(MODEL);	
+		// send the material
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
+		glUniform4fv(loc, 1, myMeshes[i].mat.ambient);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
+		glUniform4fv(loc, 1, myMeshes[i].mat.diffuse);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
+		glUniform4fv(loc, 1, myMeshes[i].mat.specular);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
+		glUniform1f(loc, myMeshes[i].mat.shininess);
+		pushMatrix(MODEL);	
 
-			//Push tree trunk
-			if (i == 1 || i == 2) {
-				translate(MODEL, 2.0f, 0.5f, 0.0f);
-			};
+		/*
+		//Push tree trunk
+		if (i == 1 || i == 2) {
+			translate(MODEL, 2.0f, 0.5f, 0.0f);
+		};
 
-			//Push tree leaf
-			if (i == 2) {
-				translate(MODEL, 0.0f, 0.8f, 0.0f);
-			};
+		//Push tree leaf
+		if (i == 2) {
+			translate(MODEL, 0.0f, 0.8f, 0.0f);
+		};
+		*/
 
-			//Floor rotate
-			if (i == 0 || i == 3) {
-				rotate(MODEL, -90, 1, 0, 0);
-			};
+		//Floor rotate
+		if (i == 0 || i == 1) {
+			rotate(MODEL, -90, 1, 0, 0);
+		};
 
-			//Push river slightly
-			if (i == 3) {
-				translate(MODEL, 0.0f, 0.0f, 0.001f);
-			};
+		//Push river slightly
+		if (i == 1) {
+			translate(MODEL, 0.0f, 0.0f, 0.001f);
+		};
 
-			// send matrices to OGL
-			computeDerivedMatrix(PROJ_VIEW_MODEL);
-			glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
-			glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
-			computeNormalMatrix3x3();
-			glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
+		// send matrices to OGL
+		computeDerivedMatrix(PROJ_VIEW_MODEL);
+		glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
+		glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
+		computeNormalMatrix3x3();
+		glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
 
-			// Render mesh
-			glBindVertexArray(myMeshes[objId].vao);
+		// Render mesh
+		glBindVertexArray(myMeshes[i].vao);
 			
-			glDrawElements(myMeshes[objId].type, myMeshes[objId].numIndexes, GL_UNSIGNED_INT, 0);
-			glBindVertexArray(0);
+		glDrawElements(myMeshes[i].type, myMeshes[i].numIndexes, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
 				
 			
-			popMatrix(MODEL);
-			objId++;
-		}
+		popMatrix(MODEL);
+		
 	}
+	renderTree(loc);
 	
 
 	//Render text (bitmap fonts) in screen coordinates. So use ortoghonal projection with viewport coordinates.
@@ -229,6 +230,55 @@ void renderScene(void) {
 
 	glutSwapBuffers();
 }
+
+
+// ------------------------------------------------------------
+//
+// Function to render tree
+//
+void renderTree(GLint loc) {
+
+	for (int i = 0; i < 2; ++i) {
+
+		// send the material
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.ambient");
+		glUniform4fv(loc, 1, myMeshes[i].mat.ambient);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.diffuse");
+		glUniform4fv(loc, 1, myMeshes[i].mat.diffuse);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.specular");
+		glUniform4fv(loc, 1, myMeshes[i].mat.specular);
+		loc = glGetUniformLocation(shader.getProgramIndex(), "mat.shininess");
+		glUniform1f(loc, myMeshes[i].mat.shininess);
+		pushMatrix(MODEL);
+
+		//Reposition tree to the side
+		translate(MODEL, 2.0f, 0.5f, 0.0f);
+
+		//Put tree leaf on top of tree trunk
+		if (i == 1) {
+			translate(MODEL, 0.0f, 0.8f, 0.0f);
+		};
+
+		// send matrices to OGL
+		computeDerivedMatrix(PROJ_VIEW_MODEL);
+		glUniformMatrix4fv(vm_uniformId, 1, GL_FALSE, mCompMatrix[VIEW_MODEL]);
+		glUniformMatrix4fv(pvm_uniformId, 1, GL_FALSE, mCompMatrix[PROJ_VIEW_MODEL]);
+		computeNormalMatrix3x3();
+		glUniformMatrix3fv(normal_uniformId, 1, GL_FALSE, mNormal3x3);
+
+		// Render mesh
+		glBindVertexArray(myMeshes[i].vao);
+
+		glDrawElements(myMeshes[i].type, myMeshes[i].numIndexes, GL_UNSIGNED_INT, 0);
+		glBindVertexArray(0);
+
+
+		popMatrix(MODEL);
+
+	}
+
+}
+
 
 // ------------------------------------------------------------
 //
@@ -500,26 +550,6 @@ void init()
 	amesh.mat.texCount = texcount;
 	myMeshes.push_back(amesh);
 
-	// create geometry and VAO of tree trunk
-	amesh = createCylinder(1.0f, 0.2f, 20);
-	memcpy(amesh.mat.ambient, amb2, 4 * sizeof(float));
-	memcpy(amesh.mat.diffuse, diff2, 4 * sizeof(float));
-	memcpy(amesh.mat.specular, spec2, 4 * sizeof(float));
-	memcpy(amesh.mat.emissive, emissive, 4 * sizeof(float));
-	amesh.mat.shininess = shininess2;
-	amesh.mat.texCount = texcount;
-	myMeshes.push_back(amesh);
-
-	// create geometry and VAO of tree leaf
-	amesh = createSphere(0.5f, 20);
-	memcpy(amesh.mat.ambient, amb1, 4 * sizeof(float));
-	memcpy(amesh.mat.diffuse, diff1, 4 * sizeof(float));
-	memcpy(amesh.mat.specular, spec1, 4 * sizeof(float));
-	memcpy(amesh.mat.emissive, emissive, 4 * sizeof(float));
-	amesh.mat.shininess = shininess1;
-	amesh.mat.texCount = texcount;
-	myMeshes.push_back(amesh);
-
 	// create geometry and VAO of the river
 	amesh = createQuad(3.0f, 10.0f);
 	memcpy(amesh.mat.ambient, amb3, 4 * sizeof(float));
@@ -529,8 +559,27 @@ void init()
 	amesh.mat.shininess = shininess3;
 	amesh.mat.texCount = texcount;
 	myMeshes.push_back(amesh);
-	
 
+	// create geometry and VAO of tree trunk
+	amesh = createCylinder(1.0f, 0.2f, 20);
+	memcpy(amesh.mat.ambient, amb2, 4 * sizeof(float));
+	memcpy(amesh.mat.diffuse, diff2, 4 * sizeof(float));
+	memcpy(amesh.mat.specular, spec2, 4 * sizeof(float));
+	memcpy(amesh.mat.emissive, emissive, 4 * sizeof(float));
+	amesh.mat.shininess = shininess2;
+	amesh.mat.texCount = texcount;
+	treeMeshes.push_back(amesh);
+
+	// create geometry and VAO of tree leaf
+	amesh = createSphere(0.5f, 20);
+	memcpy(amesh.mat.ambient, amb1, 4 * sizeof(float));
+	memcpy(amesh.mat.diffuse, diff1, 4 * sizeof(float));
+	memcpy(amesh.mat.specular, spec1, 4 * sizeof(float));
+	memcpy(amesh.mat.emissive, emissive, 4 * sizeof(float));
+	amesh.mat.shininess = shininess1;
+	amesh.mat.texCount = texcount;
+	treeMeshes.push_back(amesh);
+	
 	// some GL settings
 	glEnable(GL_DEPTH_TEST);
 	glEnable(GL_CULL_FACE);

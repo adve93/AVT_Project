@@ -1,12 +1,37 @@
 {
   "Version": 1,
   "WorkspaceRootPath": "D:\\Faculdade\\Mestrado\\2\u00BAAno\\3D\\AVT_Project\\AVT_Project\\Project\\",
-  "Documents": [],
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{E6B9C277-D0CB-4F4A-AF8E-87D21ACC9B07}|Project\\Project.vcxproj|D:\\Faculdade\\Mestrado\\2\u00BAAno\\3D\\AVT_Project\\AVT_Project\\Project\\Project\\lightDemo.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}",
+      "RelativeMoniker": "D:0:0:{E6B9C277-D0CB-4F4A-AF8E-87D21ACC9B07}|Project\\Project.vcxproj|solutionrelative:Project\\lightDemo.cpp||{D0E1A5C6-B359-4E41-9B60-3365922C2A22}"
+    }
+  ],
   "DocumentGroupContainers": [
     {
       "Orientation": 0,
       "VerticalTabListWidth": 256,
-      "DocumentGroups": []
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 0,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "lightDemo.cpp",
+              "DocumentMoniker": "D:\\Faculdade\\Mestrado\\2\u00BAAno\\3D\\AVT_Project\\AVT_Project\\Project\\Project\\lightDemo.cpp",
+              "RelativeDocumentMoniker": "Project\\lightDemo.cpp",
+              "ToolTip": "D:\\Faculdade\\Mestrado\\2\u00BAAno\\3D\\AVT_Project\\AVT_Project\\Project\\Project\\lightDemo.cpp",
+              "RelativeToolTip": "Project\\lightDemo.cpp",
+              "ViewState": "AgIAAN8AAAAAAAAAAAAAABgBAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000677|",
+              "WhenOpened": "2024-09-19T10:41:00.25Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
     }
   ]
 }

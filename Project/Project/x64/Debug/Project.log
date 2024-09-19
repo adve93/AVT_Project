@@ -1,0 +1,6 @@
+﻿  lightDemo.cpp
+D:\Faculdade\Mestrado\2ºAno\3D\AVT_Project\AVT_Project\Project\Project\lightDemo.cpp(205,2): error C3861: 'renderTree': identifier not found
+D:\Faculdade\Mestrado\2ºAno\3D\AVT_Project\AVT_Project\Project\Project\lightDemo.cpp(223,103): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Faculdade\Mestrado\2ºAno\3D\AVT_Project\AVT_Project\Project\Project\lightDemo.cpp(223,70): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Faculdade\Mestrado\2ºAno\3D\AVT_Project\AVT_Project\Project\Project\lightDemo.cpp(223,53): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
+D:\Faculdade\Mestrado\2ºAno\3D\AVT_Project\AVT_Project\Project\Project\lightDemo.cpp(223,20): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
